@@ -36,7 +36,7 @@ const ListStack = createStackNavigator({
   List: BookListScreen
 });
 ListStack.navigationOptions = {
-  tabBarLabel: 'Book List',
+  tabBarLabel: 'Session List',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}

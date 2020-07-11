@@ -26,7 +26,6 @@ const CodeScanner = () => {
   }, []);
 
   const handleBarCodeScanned = ({ data }) => {
-    console.log(sessions, data);
     setScanned(true);
     const session = sessions.find(
       session => session.sessionName === currentSessionName

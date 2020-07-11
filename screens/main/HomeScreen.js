@@ -11,6 +11,7 @@ import {
   SafeAreaView
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { format } from 'date-fns';
 
 import $t from 'i18n';
 import { logout } from '../../store/actions/UserActions';
@@ -33,8 +34,11 @@ const HomeScreen = () => {
   };
 
   const startScanninSession = () => {
-    console.log('sessions', sessions);
-    createSession({ sessionName: `session${sessions.length}`, books: [] });
+    createSession({
+      sessionName: `session${sessions.length}`,
+      books: [],
+      dateTime: format(new Date(), 'dd-MM-yyyy HH:mm')
+    });
     NavigationService.navigate('CodeScanner');
   };
 
