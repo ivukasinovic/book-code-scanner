@@ -7,12 +7,16 @@ import {
 } from '../../store/selectors/ScannerSelector';
 import { useSelector, useDispatch } from 'react-redux';
 import { addBookToScanSession } from '../../store/actions/ScannerActions';
+import { format } from 'date-fns';
+import SnackBar from 'react-native-snackbar-component'
 
 const CodeScanner = () => {
   const dispatch = useDispatch();
 
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [scanResult, setScanResult] = useState(null);
+  const [snackbarColor, setSnackbarColor] = useState('#7cebb5');
   const sessions = useSelector(sessionsSelector());
   const currentSessionName = useSelector(currentSessionNameSelector());
   const addBook = payload => dispatch(addBookToScanSession(payload));
@@ -25,25 +29,36 @@ const CodeScanner = () => {
     setScanned(false);
   }, []);
 
+  const clearSnackBar = () => {
+    return setTimeout(() => {
+      setScanResult(null);
+    }, 5000);
+  }
+
+
   const handleBarCodeScanned = ({ data }) => {
+    const session = sessions.find(session => session.sessionName === currentSessionName);
     setScanned(true);
-    const session = sessions.find(
-      session => session.sessionName === currentSessionName
-    );
+    setTimeout(() => {
+      setScanned(false);
+    }, 1000);
+
     if (sessions.length) {
-      const bookNoted = session.books.find(book => book === data);
+      const bookNoted = session.books.find(book => book.code === data);
       if (bookNoted) {
-        Alert.alert('ScannerInfo', `Book ${data} is already noted!`, [
-          { text: 'Ok', onPress: () => setScanned(false) }
-        ]);
+        setSnackbarColor('#eb857c');
+        setScanResult(`Book ${data} is already noted!`);
+        clearSnackBar();
         return;
       }
-      addBook({ sessionName: currentSessionName, bookCode: data });
-      Alert.alert('ScannerInfo', `Book ${data} added to the list!`, [
-        { text: 'Ok', onPress: () => setScanned(false) }
-      ]);
+      addBook({ sessionName: currentSessionName, book: {code: data, dateTime: format(new Date(), 'dd-MM-yyyy HH:mm')}});
+
+      setSnackbarColor('#58c786');
+      setScanResult(`Book ${data} added to the list!`);
+      clearSnackBar();
     }
   };
+
 
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
@@ -66,11 +81,12 @@ const CodeScanner = () => {
         style={StyleSheet.absoluteFillObject}
       />
 
-      {!scanned ? (
-        <Button title={'Pause'} onPress={() => setScanned(true)} />
+      {/* {!scanned ? (
+        <Button style={styles.snackbar} title={'Pause'} onPress={() => setScanned(true)} />
       ) : (
         <Button title={'Continue'} onPress={() => setScanned(false)} />
-      )}
+      )} */}
+      <SnackBar visible={!!scanResult} textMessage={scanResult} backgroundColor={snackbarColor}/>
     </View>
   );
 };

@@ -12,7 +12,8 @@ const initialState = {
   upToDate: false
 };
 
-const addBookToSession = (sessions, sessionName, bookCode) => {
+const addBookToSession = (sessions, sessionName, book) => {
+  debugger;
   let changedSessions = sessions;
   return [
     ...changedSessions.map(
@@ -20,7 +21,7 @@ const addBookToSession = (sessions, sessionName, bookCode) => {
         session.sessionName === sessionName
           ? {
               ...session,
-              books: [...session.books, bookCode]
+              books: [...session.books, book]
             }
           : session
     )
@@ -40,7 +41,7 @@ export default (state = initialState, action) =>
         draft.sessions = addBookToSession(
           state.sessions,
           action.payload.sessionName,
-          action.payload.bookCode
+          action.payload.book
         );
         break;
       case SYNC_SCANNING_SESSIONS:

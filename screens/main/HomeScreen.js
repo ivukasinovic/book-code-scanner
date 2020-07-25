@@ -44,16 +44,10 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}
-      >
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}>
           {user && <Text>{user.email}</Text>}
-          <Image
-            source={require('../../assets/images/logo.png')}
-            style={styles.welcomeImage}
-          />
+          <Image source={require('../../assets/images/logo.png')} style={styles.welcomeImage} />
         </View>
 
         <Button onPress={() => startScanninSession()} title="Start scanning!" />
@@ -68,10 +62,7 @@ const HomeScreen = () => {
             <View>
               <Text>{$t('helloWorld')}</Text>
 
-              <Button
-                onPress={() => setModalVisible(!modalVisible)}
-                title="Hide Modal"
-              />
+              <Button onPress={() => setModalVisible(!modalVisible)} title="Hide Modal" />
             </View>
           </SafeAreaView>
         </Modal>

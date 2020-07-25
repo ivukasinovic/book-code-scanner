@@ -8,10 +8,7 @@ import $t from 'i18n';
 import BookList from '../../components/BookList';
 
 const Item = ({ item, onPress, style }) => (
-  <TouchableOpacity
-    onPress={() => onPress(item.books)}
-    style={[styles.item, style]}
-  >
+  <TouchableOpacity onPress={() => onPress(item.books)} style={[styles.item, style]}>
     <Text style={styles.title}>{item.title}</Text>
     <Text style={styles.dateTime}>{item.dateTime}</Text>
   </TouchableOpacity>
@@ -33,21 +30,13 @@ const BookListScreen = () => {
   const renderItem = ({ item }) => {
     const backgroundColor = '#e8e6e4';
     return (
-      <Item
-        item={item}
-        onPress={books => setSelectedSession(books)}
-        style={{ backgroundColor }}
-      />
+      <Item item={item} onPress={books => setSelectedSession(books)} style={{ backgroundColor }} />
     );
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={formatData()}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
+      <FlatList data={formatData()} renderItem={renderItem} keyExtractor={item => item.id} />
       <Modal
         animationType="slide"
         transparent={false}
@@ -56,10 +45,7 @@ const BookListScreen = () => {
       >
         <SafeAreaView style={styles.container}>
           <View>
-            <Button
-              onPress={() => setSelectedSession(null)}
-              title="Close List"
-            />
+            <Button onPress={() => setSelectedSession(null)} title="Close List" />
             <BookList books={selectedSession} />
           </View>
         </SafeAreaView>
@@ -77,17 +63,17 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: StatusBar.currentHeight || 0
   },
-  item: {
-    marginHorizontal: 16,
-    marginVertical: 8,
-    padding: 20
-  },
-  title: {
-    fontSize: 15
-  },
   dateTime: {
     fontSize: 10,
     textAlign: 'right'
+  },
+  item: {
+    marginHorizontal: 8,
+    marginVertical: 2,
+    padding: 8,
+  },
+  title: {
+    fontSize: 15
   }
 });
 
