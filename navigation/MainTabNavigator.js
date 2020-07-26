@@ -13,6 +13,7 @@ import ChangePassword from '../screens/main/profile/ChangePassword';
 import EditProfile from '../screens/main/profile/EditProfile';
 import CodeScanner from '../screens/main/CodeScaner';
 import BookListScreen from '../screens/main/BookListScreen';
+import SignInScreen from '../screens/auth/SignInScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -39,6 +40,13 @@ ListStack.navigationOptions = {
   )
 };
 
+const SignInStack = createStackNavigator({
+  SignInScreen: SignInScreen
+});
+SignInStack.navigationOptions = {
+  tabBarLabel: 'Sign In',
+};
+
 const SettingsStack = createStackNavigator({
   Settings: {
     screen: SettingsScreen,
@@ -51,13 +59,14 @@ const SettingsStack = createStackNavigator({
 SettingsStack.navigationOptions = {
   tabBarLabel: 'Settings',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-book' : 'md-lock'} />
   )
 };
 
 const BottomTabNavigator = createBottomTabNavigator({
   HomeStack,
   ListStack,
+  SignInStack,
   SettingsStack
 });
 

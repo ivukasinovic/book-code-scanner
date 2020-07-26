@@ -11,7 +11,6 @@ const Item = ({ item, onPress, style }) => (
 
 const BookList = ({ books }) => {
   const formatData = () => {
-    debugger;
     return books.map((book, index) => ({
       id: index,
       title: book.code,

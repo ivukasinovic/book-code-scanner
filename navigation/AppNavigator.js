@@ -7,8 +7,9 @@ import AuthNavigator from './AuthNavigator';
 const AppNavigator = createSwitchNavigator(
   {
     // AuthLoading: AuthLoadingScreen,
+
+    MainStack: MainTabNavigator,
     // AuthStack: AuthNavigator,
-    MainStack: MainTabNavigator
   },
   {
     initialRouteName: 'MainStack'

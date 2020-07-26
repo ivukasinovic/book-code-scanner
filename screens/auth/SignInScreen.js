@@ -35,10 +35,10 @@ const SignInScreen = ({ navigation }) => {
       <KeyboardAwareScrollView enableOnAndroid>
         <SignInForm onSubmit={handleLogin} signInError={signInError} />
 
-        <Button title="Sign in with Facebook!" onPress={handleFacebookLogin} />
-        <Button title="Sign in with Google!" onPress={handleGoogleLogin} />
-        <Button title="Sign up!" onPress={goToSignUp} />
-        <Button title="Forgot password" onPress={goToForgotPassword} />
+        {/* <Button title="Sign in with Facebook!" onPress={handleFacebookLogin} /> */}
+        {/* <Button title="Sign in with Google!" onPress={handleGoogleLogin} /> */}
+        {/* <Button title="Sign up!" onPress={goToSignUp} /> */}
+        {/* <Button title="Forgot password" onPress={goToForgotPassword} /> */}
       </KeyboardAwareScrollView>
     </View>
   );

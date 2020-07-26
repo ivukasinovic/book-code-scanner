@@ -8,17 +8,19 @@ import {
   View,
   Button,
   Modal,
-  SafeAreaView
+  SafeAreaView,
+  Alert
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { format } from 'date-fns';
 
-import $t from 'i18n';
 import { logout } from '../../store/actions/UserActions';
 import { createScanSession } from '../../store/actions/ScannerActions';
 import { userSelector } from '../../store/selectors/UserSelector';
 import NavigationService from '../../services/NavigationService';
 import { sessionsSelector } from '../../store/selectors/ScannerSelector';
+
+import DialogInput from 'react-native-dialog-input';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -33,9 +35,10 @@ const HomeScreen = () => {
     handleLogout();
   };
 
-  const startScanninSession = () => {
+  const startScanninSession = sessionName => {
+    setModalVisible(false);
     createSession({
-      sessionName: `session${sessions.length}`,
+      sessionName: sessionName ? sessionName : `session${sessions.length}`,
       books: [],
       dateTime: format(new Date(), 'dd-MM-yyyy HH:mm')
     });
@@ -44,28 +47,31 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+      >
         <View style={styles.welcomeContainer}>
           {user && <Text>{user.email}</Text>}
-          <Image source={require('../../assets/images/logo.png')} style={styles.welcomeImage} />
+          <Image
+            source={require('../../assets/images/logo.png')}
+            style={styles.welcomeImage}
+          />
         </View>
 
-        <Button onPress={() => startScanninSession()} title="Start scanning!" />
+        <Button
+          onPress={() => setModalVisible(true)}
+          title="Start scanning!"
+        />
 
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={modalVisible}
-          onRequestClose={() => alert('Modal has been closed.')}
-        >
-          <SafeAreaView style={styles.container}>
-            <View>
-              <Text>{$t('helloWorld')}</Text>
-
-              <Button onPress={() => setModalVisible(!modalVisible)} title="Hide Modal" />
-            </View>
-          </SafeAreaView>
-        </Modal>
+        <DialogInput
+          isDialogVisible={modalVisible}
+          title={'Session Name'}
+          message={'Enter session name'}
+          hintInput={`session${sessions.length}`}
+          submitInput={inputText => startScanninSession(inputText)}
+          closeDialog={() => setModalVisible(false)}
+        />
       </ScrollView>
 
       <View style={styles.tabBarInfoContainer} />

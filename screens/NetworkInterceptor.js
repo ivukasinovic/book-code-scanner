@@ -85,10 +85,10 @@ const NetworkInterceptor = ({ showNotification, children }) => {
       return;
     }
 
-    if (!userToken) {
-      NavigationService.navigate('AuthStack');
-      return;
-    }
+    // if (!userToken) {
+    //   NavigationService.navigate('AuthStack');
+    //   return;
+    // }
 
     if (queryParams.notifications) {
       NavigationService.navigate('NotificationsScreen');
