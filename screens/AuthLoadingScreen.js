@@ -28,14 +28,12 @@ const AuthLoadingScreen = ({ navigation }) => {
   // Fetch the token from storage then navigate to our appropriate place
   const bootstrapAsync = async () => {
     // const user = await authService.getUser();
-    // debugger;
     // if (user) {
     //   handleSetActiveUser(user);
     //   handleGetUser();
     // } else {
     //   navigation.navigate('AuthStack');
     // }
-
     // This will switch to the Main screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
   };

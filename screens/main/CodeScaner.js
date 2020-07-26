@@ -8,7 +8,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { addBookToScanSession } from '../../store/actions/ScannerActions';
 import { format } from 'date-fns';
-import SnackBar from 'react-native-snackbar-component'
+import SnackBar from 'react-native-snackbar-component';
 
 const CodeScanner = () => {
   const dispatch = useDispatch();
@@ -33,8 +33,7 @@ const CodeScanner = () => {
     return setTimeout(() => {
       setScanResult(null);
     }, 5000);
-  }
-
+  };
 
   const handleBarCodeScanned = ({ data }) => {
     const session = sessions.find(session => session.sessionName === currentSessionName);
@@ -51,14 +50,16 @@ const CodeScanner = () => {
         clearSnackBar();
         return;
       }
-      addBook({ sessionName: currentSessionName, book: {code: data, dateTime: format(new Date(), 'dd-MM-yyyy HH:mm')}});
+      addBook({
+        sessionName: currentSessionName,
+        book: { code: data, dateTime: format(new Date(), 'dd-MM-yyyy HH:mm') }
+      });
 
       setSnackbarColor('#58c786');
       setScanResult(`Book ${data} added to the list!`);
       clearSnackBar();
     }
   };
-
 
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
@@ -86,7 +87,7 @@ const CodeScanner = () => {
       ) : (
         <Button title={'Continue'} onPress={() => setScanned(false)} />
       )} */}
-      <SnackBar visible={!!scanResult} textMessage={scanResult} backgroundColor={snackbarColor}/>
+      <SnackBar visible={!!scanResult} textMessage={scanResult} backgroundColor={snackbarColor} />
     </View>
   );
 };

@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 import PropTypes from 'prop-types';
 
 const ErrorText = props => {
-  return <Text>{props.error ? props.message : ''}</Text>;
+  return <Text style={{color: "red"}}>{props.error ? props.message : ''}</Text>;
 };
 
 ErrorText.propTypes = {
@@ -12,3 +12,4 @@ ErrorText.propTypes = {
 };
 
 export default ErrorText;
+

@@ -38,8 +38,6 @@ const BookListScreen = ({navigation}) => {
   
   const sync = session => {
     //TODO check if user is logged in
-    console.log('Syncining...');
-    debugger;
     if(Object.keys(user).length !== 0){
       syncScanningSession({session});
       return;
@@ -52,13 +50,11 @@ const BookListScreen = ({navigation}) => {
         { text: 'Login', onPress: () => navigateToSignIn()}
       ]
     );
-    debugger;
     editSession({sessionName: session.id, newSession: {...session, synced: true}});
   }
 
   const navigateToSignIn = () => {
     navigation.navigate('SignInScreen')
-    console.log('NAVIGATOR', navigation);
   };
 
   const deleteRow = (id) => {

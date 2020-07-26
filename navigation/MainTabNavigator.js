@@ -45,6 +45,9 @@ const SignInStack = createStackNavigator({
 });
 SignInStack.navigationOptions = {
   tabBarLabel: 'Sign In',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-lock' : 'md-lock'} />
+  )
 };
 
 const SettingsStack = createStackNavigator({
@@ -59,7 +62,7 @@ const SettingsStack = createStackNavigator({
 SettingsStack.navigationOptions = {
   tabBarLabel: 'Settings',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-book' : 'md-lock'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
   )
 };
 

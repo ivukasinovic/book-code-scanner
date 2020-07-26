@@ -18,7 +18,6 @@ export const editScanSession = payload => ({
   payload
 });
 
-
 export const addBookToScanSession = payload => ({
   type: ADD_BOOK_TO_SCAN_SESSION,
   payload
@@ -39,9 +38,7 @@ export const deleteScanSession = payload => ({
   payload
 });
 
-
 export const deleteBook = payload => ({
   type: DELETE_BOOK,
   payload
 });
-

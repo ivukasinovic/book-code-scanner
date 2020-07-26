@@ -8,7 +8,7 @@ const AppNavigator = createSwitchNavigator(
   {
     // AuthLoading: AuthLoadingScreen,
 
-    MainStack: MainTabNavigator,
+    MainStack: MainTabNavigator
     // AuthStack: AuthNavigator,
   },
   {

@@ -20,9 +20,9 @@ const addBookToSession = (sessions, sessionName, book) => {
       session =>
         session.sessionName === sessionName
           ? {
-              ...session,
-              books: [...session.books, book]
-            }
+            ...session,
+            books: [...session.books, book]
+          }
           : session
     )
   ];
@@ -30,27 +30,24 @@ const addBookToSession = (sessions, sessionName, book) => {
 
 const editScanSession = (sessions, sessionId, newSession) => {
   let changedSessions = sessions;
-  return [
-    ...changedSessions.map(
-      (session, index) =>
-        index === sessionId
-          ? newSession
-          : session
-    )
-  ];
-}
+  return [...changedSessions.map((session, index) => (index === sessionId ? newSession : session))];
+};
 
 export default (state = initialState, action) =>
   produce(state, draft => {
     /*eslint-disable indent */
     switch (action.type) {
       case CREATE_SCAN_SESSION:
-        draft.sessions.push({...action.payload, synced: false});
+        draft.sessions.push({ ...action.payload, synced: false });
         draft.upToDate = false;
         draft.currentSessionName = action.payload.sessionName;
         break;
       case EDIT_SCAN_SESSION:
-        draft.sessions = editScanSession(state.sessions, action.payload.sessionName, action.payload.newSession)
+        draft.sessions = editScanSession(
+          state.sessions,
+          action.payload.sessionName,
+          action.payload.newSession
+        );
         break;
       case ADD_BOOK_TO_SCAN_SESSION:
         draft.sessions = addBookToSession(
@@ -63,8 +60,7 @@ export default (state = initialState, action) =>
         draft.sessions = state.sessions;
         break;
       case DELETE_SESSION:
-        debugger;
-        draft.sessions = draft.sessions.filter((session,index) => index !== action.payload.id);
+        draft.sessions = draft.sessions.filter((session, index) => index !== action.payload.id);
         break;
     }
   });

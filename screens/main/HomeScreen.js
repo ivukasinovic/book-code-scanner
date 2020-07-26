@@ -47,22 +47,13 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}
-      >
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}>
           {user && <Text>{user.email}</Text>}
-          <Image
-            source={require('../../assets/images/logo.png')}
-            style={styles.welcomeImage}
-          />
+          <Image source={require('../../assets/images/logo.png')} style={styles.welcomeImage} />
         </View>
 
-        <Button
-          onPress={() => setModalVisible(true)}
-          title="Start scanning!"
-        />
+        <Button onPress={() => setModalVisible(true)} title="Start scanning!" />
 
         <DialogInput
           isDialogVisible={modalVisible}

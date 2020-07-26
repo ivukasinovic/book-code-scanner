@@ -16,21 +16,14 @@ export const SignInForm = ({ onSubmit, signInError }) => (
   >
     {({ handleSubmit }) => (
       <View>
-        <Field
-          name="email"
-          component={TextInputField}
-          placeholder={$t('auth.enterEmail')}
-        />
+        <Field name="email" component={TextInputField} placeholder={$t('auth.enterEmail')} />
         <Field
           name="password"
           component={TextInputField}
           secureTextEntry
           placeholder={$t('auth.enterPassword')}
         />
-        <ErrorText
-          error={!!signInError}
-          message={$t('auth.invalidCredentials')}
-        />
+        <ErrorText error={!!signInError} message={$t('auth.invalidCredentials')} />
         <TouchableOpacity onPress={handleSubmit}>
           <Button title="Sign In" onPress={handleSubmit} />
         </TouchableOpacity>

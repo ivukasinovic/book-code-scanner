@@ -16,10 +16,11 @@ import { profileService } from '../../services/ProfileService';
 
 export function* userLogin({ payload }) {
   try {
+
     yield put(setSignInError(false));
     yield put(setLoader(true));
     yield call(authService.login, payload);
-    NavigationService.navigate('AuthLoading');
+    NavigationService.navigate('List');
   } catch (error) {
     if (error.response.status === 401) {
       yield put(setSignInError(true));
@@ -35,7 +36,7 @@ export function* userFacebookLogin() {
   try {
     yield put(setLoader(true));
     yield call(authService.loginWithFacebook);
-    NavigationService.navigate('AuthLoading');
+    NavigationService.navigate('MainStack');
   } catch (error) {
     if (error.message !== 'cancel') {
       if (error.response.status === 422) {
