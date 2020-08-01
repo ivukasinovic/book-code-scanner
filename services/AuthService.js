@@ -51,7 +51,9 @@ class AuthService extends ApiService {
   };
 
   createSession = async user => {
-    await AsyncStorage.setItem('user', JSON.stringify(user));
+    const mappedUser = {...user.user,access_token: user.tokens.access.token};
+    
+    await AsyncStorage.setItem('user', JSON.stringify(mappedUser));
     await this.setAuthorizationHeader();
     const expoPushToken = await askForNotificationsPermission();
     if (expoPushToken) {

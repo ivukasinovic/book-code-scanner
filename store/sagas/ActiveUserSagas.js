@@ -16,7 +16,6 @@ import { profileService } from '../../services/ProfileService';
 
 export function* userLogin({ payload }) {
   try {
-
     yield put(setSignInError(false));
     yield put(setLoader(true));
     yield call(authService.login, payload);
@@ -35,7 +34,9 @@ export function* userLogin({ payload }) {
 export function* userFacebookLogin() {
   try {
     yield put(setLoader(true));
-    yield call(authService.loginWithFacebook);
+    const user = yield call(authService.loginWithFacebook);
+    yield put(handleSetActiveUser(user));
+    yield put(handleGetUser());
     NavigationService.navigate('MainStack');
   } catch (error) {
     if (error.message !== 'cancel') {

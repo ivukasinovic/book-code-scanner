@@ -23,7 +23,7 @@ const BookListScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const editSession = payload => dispatch(editScanSession(payload));
   const deleteSession = payload => dispatch(deleteScanSession(payload));
-  const syncSession = payload  => dispatch(syncSession(payload));
+  const syncSession = payload  => dispatch(syncScanningSession(payload));
   const user = useSelector(userSelector());
   const sessions = useSelector(sessionsSelector());
   const [selectedSession, setSelectedSession] = useState(null);
@@ -39,7 +39,7 @@ const BookListScreen = ({navigation}) => {
   const sync = session => {
     //TODO check if user is logged in
     if(Object.keys(user).length !== 0){
-      syncScanningSession({session});
+      syncSession({session});
       return;
     }
     Alert.alert(

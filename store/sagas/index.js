@@ -23,6 +23,8 @@ import {
   passwordChange,
   updateUser
 } from '../sagas/ActiveUserSagas';
+import { syncSession } from './SessionSagas';
+import { SYNC_SCANNING_SESSIONS } from '../actionTypes/ScannerActionTypes';
 
 export default function* rootSaga() {
   yield all([
@@ -35,6 +37,7 @@ export default function* rootSaga() {
     takeLatest(RESET_PASSWORD, resetPassword),
     takeLatest(USER_GET, userGet),
     takeLatest(PASSWORD_CHANGE, passwordChange),
-    takeLatest(USER_UPDATE, updateUser)
+    takeLatest(USER_UPDATE, updateUser),
+    takeLatest(SYNC_SCANNING_SESSIONS, syncSession)
   ]);
 }
