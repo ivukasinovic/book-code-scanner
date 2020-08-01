@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View, Button } from 'react-native';
 import { Formik, Field } from 'formik';
 import PropTypes from 'prop-types';
 
@@ -25,7 +25,7 @@ export const SignInForm = ({ onSubmit, signInError }) => (
         />
         <ErrorText error={!!signInError} message={$t('auth.invalidCredentials')} />
         <TouchableOpacity onPress={handleSubmit}>
-          <Text>{$t('auth.signIn')}</Text>
+          <Button title="Sign In" onPress={handleSubmit} />
         </TouchableOpacity>
       </View>
     )}

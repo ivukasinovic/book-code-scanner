@@ -11,11 +11,8 @@ import { forgotPasswordErrorSelector } from '../../store/selectors/ErrorSelector
 const ForgotPasswordScreen = () => {
   const dispatch = useDispatch();
 
-  const handlePasswordForgot = useCallback(data =>
-    dispatch(passwordForgot(data))
-  );
-  const handleSetForgotPasswordError = data =>
-    dispatch(setForgotPasswordError(data));
+  const handlePasswordForgot = useCallback(data => dispatch(passwordForgot(data)));
+  const handleSetForgotPasswordError = data => dispatch(setForgotPasswordError(data));
 
   const forgotPasswordError = useSelector(forgotPasswordErrorSelector());
 

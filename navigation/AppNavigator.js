@@ -6,12 +6,12 @@ import AuthNavigator from './AuthNavigator';
 
 const AppNavigator = createSwitchNavigator(
   {
-    // AuthLoading: AuthLoadingScreen,
-    // AuthStack: AuthNavigator,
+    AuthLoading: AuthLoadingScreen,
     MainStack: MainTabNavigator
+
   },
   {
-    initialRouteName: 'MainStack'
+    initialRouteName: 'AuthLoading'
   }
 );
 

@@ -30,14 +30,10 @@ const EditProfile = () => {
   };
 
   const openImagePickerModal = async () => {
-    const cameraRollPermissions = await Permissions.askAsync(
-      Permissions.CAMERA_ROLL
-    );
-    const hasCameraRollPermission =
-      cameraRollPermissions.status === PERMISSIONS_STATUS.GRANTED;
+    const cameraRollPermissions = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    const hasCameraRollPermission = cameraRollPermissions.status === PERMISSIONS_STATUS.GRANTED;
     const cameraPermissions = await Permissions.askAsync(Permissions.CAMERA);
-    const hasCameraPermission =
-      cameraPermissions.status === PERMISSIONS_STATUS.GRANTED;
+    const hasCameraPermission = cameraPermissions.status === PERMISSIONS_STATUS.GRANTED;
 
     toggleImagePicker(hasCameraPermission && hasCameraRollPermission);
     togglePermissionsModal(!(hasCameraPermission && hasCameraRollPermission));

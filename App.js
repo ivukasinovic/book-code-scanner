@@ -21,6 +21,8 @@ if (!__DEV__) {
 
 YellowBox.ignoreWarnings(['react-native-i18n module is not correctly linked']);
 
+
+
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false

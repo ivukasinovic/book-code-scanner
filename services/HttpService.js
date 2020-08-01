@@ -51,7 +51,8 @@ class HttpService {
 }
 
 const options = {
-  baseURL: config.API_BASE_URL
+  // baseURL: config.API_BASE_URL
+  baseURL: 'http://c8fc5fbc3c12.ngrok.io/v1/'
 };
 const httpService = new HttpService(options);
 
