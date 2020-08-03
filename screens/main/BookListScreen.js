@@ -9,21 +9,27 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   Alert,
+  Image
 } from 'react-native';
 import { sessionsSelector } from '../../store/selectors/ScannerSelector';
 import { useSelector, useDispatch } from 'react-redux';
 import { SafeAreaView } from 'react-navigation';
 import BookList from '../../components/BookList';
 import DialogInput from 'react-native-dialog-input';
-import { editScanSession, deleteScanSession, syncScanningSession } from '../../store/actions/ScannerActions';
+import {
+  editScanSession,
+  deleteScanSession,
+  syncScanningSession
+} from '../../store/actions/ScannerActions';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { userSelector } from '../../store/selectors/UserSelector';
+import syncIcon from '../../assets/icons/sync.png';
 
-const BookListScreen = ({navigation}) => {
+const BookListScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const editSession = payload => dispatch(editScanSession(payload));
   const deleteSession = payload => dispatch(deleteScanSession(payload));
-  const syncSession = payload  => dispatch(syncScanningSession(payload));
+  const syncSession = payload => dispatch(syncScanningSession(payload));
   const user = useSelector(userSelector());
   const sessions = useSelector(sessionsSelector());
   const [selectedSession, setSelectedSession] = useState(null);
@@ -32,78 +38,81 @@ const BookListScreen = ({navigation}) => {
   const formatData = () => {
     return sessions.map((session, index) => ({
       ...session,
-      id: index,
+      id: index
     }));
   };
-  
+
   const sync = session => {
-    //TODO check if user is logged in
-    if(Object.keys(user).length !== 0){
-      syncSession({session});
+    if (Object.keys(user).length !== 0) {
+      syncSession({ session });
       return;
     }
     Alert.alert(
       'Sign in required',
       'You should login before syncing sessions.',
-      [
-        { text: 'Cancel' },
-        { text: 'Login', onPress: () => navigateToSignIn()}
-      ]
+      [{ text: 'Cancel' }, { text: 'Login', onPress: () => navigateToSignIn() }]
     );
-    editSession({sessionName: session.id, newSession: {...session, synced: true}});
-  }
-
-  const navigateToSignIn = () => {
-    navigation.navigate('SignInScreen')
   };
 
-  const deleteRow = (id) => {
+  const navigateToSignIn = () => {
+    navigation.navigate('SignInScreen');
+  };
+
+  const deleteRow = id => {
     Alert.alert(
       'Are you sure?',
       'Are you sure you want to delete this session?',
-      [
-        { text: 'No' },
-        { text: 'Yes', onPress: () => deleteSession({id})}
-      ]
+      [{ text: 'No' }, { text: 'Yes', onPress: () => deleteSession({ id }) }]
     );
   };
 
   const renderItem = data => {
-    return (
+    return data ? (
       <TouchableHighlight
         onPress={() => setSelectedSession(data.item.books)}
-        style={styles.rowFront}
+        style={[styles.card, styles.mb10, styles.mh10]}
         underlayColor={'#AAA'}
       >
-        <View style={styles.itemView}>
-          <Text>{`Synced ${data.item.synced ? 'Yes' : 'No'}`}</Text>
-          <Text>{`No:${data.item.books.length}`}</Text>
-          <Text style={styles.sessionName}>{data.item.sessionName}</Text>
-          <Text style={styles.dateTime}>{data.item.dateTime}</Text>
-          <Button title="SYNC" onPress={() => sync(data.item)}></Button>
+        <View style={styles.cardCtn}>
+          <View
+            style={[styles.cardNum, data.item.synced && styles.cardNumSynced]}
+          >
+            <Text style={styles.cardNumText}>{data.item.books.length}</Text>
+          </View>
+          <Text style={styles.cardTitle}>{data.item.sessionName}</Text>
+          <Text style={styles.cardDate}>{data.item.dateTime}</Text>
+          {!data.item.synced && !!data.item.books.length &&  (
+            <TouchableOpacity
+              style={styles.cardAction}
+              onPress={() => sync(data.item)}
+            >
+              <Image source={syncIcon} style={styles.cardSyncIcon} />
+            </TouchableOpacity>
+          )}
         </View>
       </TouchableHighlight>
+    ) : (
+      <Text style={{ marginTop: 100 }}>No items</Text>
     );
   };
 
-  const renderHiddenItem = (data) => (
-    <View style={styles.rowBack}>
-      <Text>Left</Text>
+  const renderHiddenItem = data => (
+    <View style={[styles.cardBack, styles.mh10]}>
+      <Text style={styles.cardBackLeft} />
       <TouchableOpacity
-        style={[styles.backRightBtn, styles.backRightBtnLeft]}
+        style={[styles.cardBackBtn, styles.cardBackBtnEdit]}
         onPress={() => setEditableSession(data.item)}
       >
-        <Text style={styles.backTextWhite}>Edit</Text>
+        <Text style={styles.cardBackBtnText}>Edit</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.backRightBtn, styles.backRightBtnRight]}
+        style={[styles.cardBackBtn, styles.cardBackBtnDelete]}
         onPress={() => deleteRow(data.item.id)}
       >
-        <Text style={styles.backTextWhite}>Delete</Text>
+        <Text style={styles.cardBackBtnText}>Delete</Text>
       </TouchableOpacity>
     </View>
   );
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -141,7 +150,7 @@ const BookListScreen = ({navigation}) => {
         submitInput={inputText => {
           editSession({
             sessionName: editableSession.id,
-            newSession: {...editableSession, sessionName: inputText}
+            newSession: { ...editableSession, sessionName: inputText }
           });
           setEditableSession(null);
         }}
@@ -155,7 +164,101 @@ BookListScreen.navigationOptions = () => {
   return { title: 'Session list' };
 };
 
+const card = {
+  height: 65,
+  borderRadius: 8,
+  borderColor: '#d5d5d5',
+  backgroundColor: 'white'
+};
+
 const styles = StyleSheet.create({
+  card: {
+    backgroundColor: card.backgroundColor,
+    borderColor: card.borderColor,
+    borderRadius: card.borderRadius,
+    borderStyle: 'solid',
+    borderWidth: 1,
+    justifyContent: 'center',
+    minHeight: card.height
+  },
+  cardAction: {
+    alignItems: 'center',
+    backgroundColor: card.borderColor,
+    borderRadius: 4,
+    flexShrink: 0,
+    height: 35,
+    justifyContent: 'center',
+    width: 35
+  },
+  cardBack: {
+    backgroundColor: card.borderColor,
+    borderRadius: card.borderRadius,
+    flexDirection: 'row',
+    minHeight: card.height,
+    overflow: 'hidden'
+  },
+  cardBackBtn: {
+    alignItems: 'center',
+    backgroundColor: 'blue',
+    justifyContent: 'center',
+    minWidth: 75,
+    paddingHorizontal: 10,
+    paddingVertical: 5
+  },
+  cardBackBtnDelete: {
+    backgroundColor: '#eb857c'
+  },
+  cardBackBtnEdit: {
+    backgroundColor: '#58c786',
+    borderBottomLeftRadius: card.borderRadius,
+    borderTopLeftRadius: card.borderRadius
+  },
+  cardBackBtnText: {
+    color: 'white'
+  },
+  cardBackLeft: {
+    marginBottom: 'auto',
+    marginLeft: 10,
+    marginRight: 'auto',
+    marginTop: 'auto'
+  },
+  cardCtn: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 15,
+    paddingVertical: 10
+  },
+  cardDate: {
+    flexShrink: 0,
+    fontSize: 10,
+    marginRight: 10
+  },
+  cardNum: {
+    alignItems: 'center',
+    backgroundColor: 'gray',
+    borderRadius: 20,
+    height: 40,
+    justifyContent: 'center',
+    marginRight: 10,
+    width: 40
+  },
+  cardNumSynced: {
+    backgroundColor: '#3e6f35'
+  },
+  cardNumText: {
+    color: 'white',
+    fontWeight: 'bold'
+  },
+  cardSyncIcon: {
+    height: 20,
+    width: 20
+  },
+  cardTitle: {
+    flexGrow: 1,
+    flexShrink: 1,
+    fontSize: 18,
+    marginRight: 10
+  },
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0
@@ -164,56 +267,11 @@ const styles = StyleSheet.create({
     fontSize: 10,
     textAlign: 'right'
   },
-  item: {
-    marginHorizontal: 8,
-    marginVertical: 2,
-    padding: 8
+  mb10: {
+    marginBottom: 10
   },
-  title: {
-    fontSize: 15
-  },
-  backTextWhite: {
-    color: '#FFF'
-  },
-  rowFront: {
-    alignItems: 'center',
-    backgroundColor: '#FFF5E1',
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    justifyContent: 'center',
-    height: 50,
-    flex: 1,
-  },
-  itemView: {
-    alignItems: 'center',
-    backgroundColor: '#FFF5E1',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  rowBack: {
-    alignItems: 'center',
-    backgroundColor: '#DDD',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingLeft: 15
-  },
-  backRightBtn: {
-    alignItems: 'center',
-    bottom: 0,
-    justifyContent: 'center',
-    position: 'absolute',
-    top: 0,
-    width: 75
-  },
-  backRightBtnLeft: {
-    backgroundColor: '#58c786',
-    right: 75
-  },
-  backRightBtnRight: {
-    backgroundColor: '#eb857c',
-    right: 0
+  mh10: {
+    marginHorizontal: 10
   }
 });
 

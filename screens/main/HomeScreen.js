@@ -53,7 +53,9 @@ const HomeScreen = () => {
           <Image source={require('../../assets/images/logo.png')} style={styles.welcomeImage} />
         </View>
 
-        <Button onPress={() => setModalVisible(true)} title="Start scanning!" />
+        <View style={styles.buttonWrap}>
+          <Button onPress={() => setModalVisible(true)} title="Start scanning!" />
+        </View>
 
         <DialogInput
           isDialogVisible={modalVisible}
@@ -78,14 +80,17 @@ HomeScreen.navigationOptions = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+  buttonWrap: {
+    alignItems: 'center'
+  },
   container: {
     backgroundColor: '#fff',
     flex: 1
   },
+
   contentContainer: {
     paddingTop: 30
   },
-
   tabBarInfoContainer: {
     bottom: 0,
     left: 0,
@@ -113,7 +118,6 @@ const styles = StyleSheet.create({
   },
   welcomeImage: {
     height: 120,
-    marginLeft: -10,
     marginTop: 3,
     resizeMode: 'contain',
     width: 400

@@ -6,7 +6,6 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/main/HomeScreen';
-import SettingsScreen from '../screens/main/SettingsScreen';
 import LeftSlider from '../screens/main/LeftSlider';
 import { addHeaderLeftNavigator } from '../helpers';
 import ChangePassword from '../screens/main/profile/ChangePassword';
@@ -50,27 +49,10 @@ SignInStack.navigationOptions = {
   )
 };
 
-const SettingsStack = createStackNavigator({
-  Settings: {
-    screen: SettingsScreen,
-    navigationOptions: () => {
-      return { title: 'Settings' };
-    }
-  }
-});
-
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
-  )
-};
-
 const BottomTabNavigator = createBottomTabNavigator({
   HomeStack,
   ListStack,
   SignInStack,
-  SettingsStack
 });
 
 export default createDrawerNavigator(
