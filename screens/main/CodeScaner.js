@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, Alert } from 'react-native';
+import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import {
   sessionsSelector,
@@ -10,7 +10,7 @@ import { addBookToScanSession } from '../../store/actions/ScannerActions';
 import { format } from 'date-fns';
 import SnackBar from 'react-native-snackbar-component';
 
-const CodeScanner = () => {
+const CodeScanner = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const [hasPermission, setHasPermission] = useState(null);
@@ -35,8 +35,14 @@ const CodeScanner = () => {
     }, 5000);
   };
 
+  const finishScannig = () => {
+    navigation.navigate('Home');
+  };
+
   const handleBarCodeScanned = ({ data }) => {
-    const session = sessions.find(session => session.sessionName === currentSessionName);
+    const session = sessions.find(
+      session => session.sessionName === currentSessionName
+    );
     setScanned(true);
     setTimeout(() => {
       setScanned(false);
@@ -76,18 +82,19 @@ const CodeScanner = () => {
         justifyContent: 'flex-end'
       }}
     >
+      <Button title="Finish" onPress={() => finishScannig()} />
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         barCodeTypes={[BarCodeScanner.Constants.BarCodeType.code128]}
-        style={StyleSheet.absoluteFillObject}
+        style={{...StyleSheet.absoluteFillObject, bottom: 30}}
       />
 
-      {/* {!scanned ? (
-        <Button style={styles.snackbar} title={'Pause'} onPress={() => setScanned(true)} />
-      ) : (
-        <Button title={'Continue'} onPress={() => setScanned(false)} />
-      )} */}
-      <SnackBar visible={!!scanResult} textMessage={scanResult} backgroundColor={snackbarColor} />
+      <SnackBar
+        visible={!!scanResult}
+        textMessage={scanResult}
+        backgroundColor={snackbarColor}
+        position="top"
+      />
     </View>
   );
 };

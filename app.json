@@ -23,19 +23,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    },
-    "hooks": {
-      "postPublish": [
-        {
-          "file": "sentry-expo/upload-sourcemaps",
-          "config": {
-            "organization": "ftn",
-            "project": "ftn bookshelf",
-            "authToken": "authToken"
-          }
-        }
-      ]
+      "bundleIdentifier": "com.studentftn.development"
     },
     "android": {
       "package": "com.studentftn.development"

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
-import Sentry from 'sentry-expo';
 
 import config from '../config';
 
@@ -27,7 +26,6 @@ class HttpService {
     try {
       const { status } = error.response;
 
-      Sentry.captureException(error);
 
       switch (status) {
       case 401:
