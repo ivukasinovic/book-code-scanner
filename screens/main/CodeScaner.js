@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Button, Vibration } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import {
   sessionsSelector,
@@ -40,9 +40,7 @@ const CodeScanner = ({ navigation }) => {
   };
 
   const handleBarCodeScanned = ({ data }) => {
-    const session = sessions.find(
-      session => session.sessionName === currentSessionName
-    );
+    const session = sessions.find(session => session.sessionName === currentSessionName);
     setScanned(true);
     setTimeout(() => {
       setScanned(false);
@@ -52,10 +50,12 @@ const CodeScanner = ({ navigation }) => {
       const bookNoted = session.books.find(book => book.code === data);
       if (bookNoted) {
         setSnackbarColor('#eb857c');
+        Vibration.vibrate([50, 150,50, 150, 50, 150]);
         setScanResult(`Book ${data} is already noted!`);
         clearSnackBar();
         return;
       }
+      Vibration.vibrate(300);
       addBook({
         sessionName: currentSessionName,
         book: { code: data, dateTime: format(new Date(), 'dd-MM-yyyy HH:mm') }
@@ -86,7 +86,7 @@ const CodeScanner = ({ navigation }) => {
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         barCodeTypes={[BarCodeScanner.Constants.BarCodeType.code128]}
-        style={{...StyleSheet.absoluteFillObject, bottom: 30}}
+        style={{ ...StyleSheet.absoluteFillObject, bottom: 30 }}
       />
 
       <SnackBar

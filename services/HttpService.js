@@ -26,7 +26,6 @@ class HttpService {
     try {
       const { status } = error.response;
 
-
       switch (status) {
       case 401:
         AsyncStorage.clear();
@@ -50,7 +49,7 @@ class HttpService {
 
 const options = {
   // baseURL: config.API_BASE_URL
-  baseURL: 'http://c8fc5fbc3c12.ngrok.io/v1/'
+  baseURL: 'https://5615698ed5f0.ngrok.io/v1/'
 };
 const httpService = new HttpService(options);
 

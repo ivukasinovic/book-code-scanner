@@ -27,10 +27,11 @@ import syncIcon from '../../assets/icons/sync.png';
 
 const BookListScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+  const [flag, setFlag] = useState(false);
   const editSession = payload => dispatch(editScanSession(payload));
   const deleteSession = payload => dispatch(deleteScanSession(payload));
   const syncSession = payload => dispatch(syncScanningSession(payload));
-  const user = useSelector(userSelector());
+  // const user = useSelector(userSelector());
   const sessions = useSelector(sessionsSelector());
   const [selectedSession, setSelectedSession] = useState(null);
   const [editableSession, setEditableSession] = useState(null);
@@ -43,15 +44,15 @@ const BookListScreen = ({ navigation }) => {
   };
 
   const sync = session => {
-    if (Object.keys(user).length !== 0) {
+    if (flag) {
       syncSession({ session });
       return;
     }
-    Alert.alert(
-      'Sign in required',
-      'You should login before syncing sessions.',
-      [{ text: 'Cancel' }, { text: 'Login', onPress: () => navigateToSignIn() }]
-    );
+    setFlag(true);
+    Alert.alert('Sign in required', 'You should login before syncing sessions.', [
+      { text: 'Cancel' },
+      { text: 'Login', onPress: () => navigateToSignIn() }
+    ]);
   };
 
   const navigateToSignIn = () => {
@@ -59,11 +60,10 @@ const BookListScreen = ({ navigation }) => {
   };
 
   const deleteRow = id => {
-    Alert.alert(
-      'Are you sure?',
-      'Are you sure you want to delete this session?',
-      [{ text: 'No' }, { text: 'Yes', onPress: () => deleteSession({ id }) }]
-    );
+    Alert.alert('Are you sure?', 'Are you sure you want to delete this session?', [
+      { text: 'No' },
+      { text: 'Yes', onPress: () => deleteSession({ id }) }
+    ]);
   };
 
   const renderItem = data => {
@@ -74,18 +74,14 @@ const BookListScreen = ({ navigation }) => {
         underlayColor={'#AAA'}
       >
         <View style={styles.cardCtn}>
-          <View
-            style={[styles.cardNum, data.item.synced && styles.cardNumSynced]}
-          >
+          <View style={[styles.cardNum, data.item.synced && styles.cardNumSynced]}>
             <Text style={styles.cardNumText}>{data.item.books.length}</Text>
           </View>
           <Text style={styles.cardTitle}>{data.item.sessionName}</Text>
           <Text style={styles.cardDate}>{data.item.dateTime}</Text>
-          {!data.item.synced && !!data.item.books.length &&  (
-            <TouchableOpacity
-              style={styles.cardAction}
-              onPress={() => sync(data.item)}
-            >
+          {!data.item.synced &&
+            !!data.item.books.length && (
+            <TouchableOpacity style={styles.cardAction} onPress={() => sync(data.item)}>
               <Image source={syncIcon} style={styles.cardSyncIcon} />
             </TouchableOpacity>
           )}
@@ -134,10 +130,7 @@ const BookListScreen = ({ navigation }) => {
       >
         <SafeAreaView style={styles.container}>
           <View>
-            <Button
-              onPress={() => setSelectedSession(null)}
-              title="Close List"
-            />
+            <Button onPress={() => setSelectedSession(null)} title="Close List" />
             <BookList books={selectedSession} />
           </View>
         </SafeAreaView>
