@@ -1,4 +1,4 @@
 # book-code-scanner
 
-yarn
-expo start
+##yarn
+##expo start
