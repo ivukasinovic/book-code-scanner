@@ -41,7 +41,7 @@ const SignInScreen = ({ navigation }) => {
         {/* <Button title="Sign in with Google!" onPress={handleGoogleLogin} /> */}
         {/* <Button title="Sign up!" onPress={goToSignUp} /> */}
         {/* <Button title="Forgot password" onPress={goToForgotPassword} /> */}
-      </KeyboardAwareScrollView>) :(<View><Text>You are logged in as {user.email}</Text><Button title="Sign me out!" onPress={_signOutAsync} /></View>)}
+      </KeyboardAwareScrollView>) :(<View><Text>You are logged in as {user.email}</Text><Button title="Sign out!" onPress={_signOutAsync} /></View>)}
     </View>
   );
 };

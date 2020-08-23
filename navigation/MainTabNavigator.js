@@ -7,7 +7,6 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/main/HomeScreen';
 import LeftSlider from '../screens/main/LeftSlider';
-import { addHeaderLeftNavigator } from '../helpers';
 import ChangePassword from '../screens/main/profile/ChangePassword';
 import EditProfile from '../screens/main/profile/EditProfile';
 import CodeScanner from '../screens/main/CodeScaner';
@@ -52,7 +51,7 @@ SignInStack.navigationOptions = {
 const BottomTabNavigator = createBottomTabNavigator({
   HomeStack,
   ListStack,
-  SignInStack,
+  SignInStack
 });
 
 export default createDrawerNavigator(

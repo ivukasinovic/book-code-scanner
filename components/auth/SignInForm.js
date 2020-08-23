@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Button } from 'react-native';
+import { TouchableOpacity, View, Button, StyleSheet } from 'react-native';
 import { Formik, Field } from 'formik';
 import PropTypes from 'prop-types';
 
@@ -15,15 +15,24 @@ export const SignInForm = ({ onSubmit, signInError }) => (
     validationSchema={signInValidationRules}
   >
     {({ handleSubmit }) => (
-      <View>
-        <Field name="email" component={TextInputField} placeholder={$t('auth.enterEmail')} />
+      <View style={styles.wrapper}>
         <Field
+          style={styles.input}
+          name="email"
+          component={TextInputField}
+          placeholder={$t('auth.enterEmail')}
+        />
+        <Field
+          style={styles.input}
           name="password"
           component={TextInputField}
           secureTextEntry
           placeholder={$t('auth.enterPassword')}
         />
-        <ErrorText error={!!signInError} message={$t('auth.invalidCredentials')} />
+        <ErrorText
+          error={!!signInError}
+          message={$t('auth.invalidCredentials')}
+        />
         <TouchableOpacity onPress={handleSubmit}>
           <Button title="Sign In" onPress={handleSubmit} />
         </TouchableOpacity>
@@ -36,3 +45,9 @@ SignInForm.propTypes = {
   onSubmit: PropTypes.func,
   signInError: PropTypes.bool
 };
+
+const styles = StyleSheet.create({
+  input: {
+    width: 150
+  }
+});
